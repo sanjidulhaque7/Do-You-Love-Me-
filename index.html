@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Do You Love Me? 💖</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body {
+  margin: 0;
+  height: 100vh;
+  background: linear-gradient(135deg, #ff4e50, #ff9a9e);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: 'Segoe UI', sans-serif;
+  overflow: hidden;
+}
+
+/* HEARTS */
+.heart {
+  position: absolute;
+  animation: floatUp 6s linear infinite;
+  font-size: 20px;
+}
+
+@keyframes floatUp {
+  0% { transform: translateY(100vh) scale(0.5); opacity: 1; }
+  100% { transform: translateY(-10vh) scale(1.2); opacity: 0; }
+}
+
+.container {
+  text-align: center;
+  color: white;
+  z-index: 2;
+}
+
+h1 {
+  font-size: 38px;
+  animation: fadeIn 2s ease;
+}
+
+.buttons {
+  margin-top: 30px;
+  position: relative;
+  width: 350px;
+  height: 180px;
+}
+
+button {
+  padding: 12px 28px;
+  font-size: 18px;
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+  position: absolute;
+  transition: all 0.25s ease;
+}
+
+#yes {
+  background: #00ffc8;
+  box-shadow: 0 0 20px #00ffc8;
+  left: 30px;
+  top: 70px;
+}
+
+#no {
+  background: #ff004c;
+  left: 200px;
+  top: 70px;
+}
+
+/* MESSAGE */
+#messageBox {
+  display: none;
+  margin-top: 25px;
+  font-size: 20px;
+  animation: fadeIn 1s ease;
+}
+
+.line {
+  opacity: 0;
+  animation: fadeLine 1s forwards;
+}
+
+@keyframes fadeLine {
+  to { opacity: 1; }
+}
+
+@keyframes fadeIn {
+  from {opacity:0; transform: translateY(20px);}
+  to {opacity:1; transform: translateY(0);}
+}
+
+/* LOVE LANGUAGES */
+#languages {
+  margin-top: 20px;
+  font-size: 18px;
+  color: #fff;
+  min-height: 30px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+  <h1>💖 তুমি কি আমাকে ভালোবাসো? 💖<br>Do you love me?</h1>
+
+  <div class="buttons">
+    <button id="yes">Yes / হ্যাঁ 💖</button>
+    <button id="no">No / না 😈</button>
+  </div>
+
+  <div id="messageBox"></div>
+  <div id="languages"></div>
+</div>
+
+<script>
+const noBtn = document.getElementById("no");
+const yesBtn = document.getElementById("yes");
+const messageBox = document.getElementById("messageBox");
+const langBox = document.getElementById("languages");
+
+let speed = 1;
+
+// ADVANCED RUN AWAY
+document.addEventListener("mousemove", (e) => {
+  const rect = noBtn.getBoundingClientRect();
+  const distance = Math.hypot(e.clientX - rect.x, e.clientY - rect.y);
+
+  if (distance < 100) {
+    const parent = noBtn.parentElement;
+    const maxX = parent.clientWidth - noBtn.offsetWidth;
+    const maxY = parent.clientHeight - noBtn.offsetHeight;
+
+    const newX = Math.random() * maxX;
+    const newY = Math.random() * maxY;
+
+    noBtn.style.left = newX + "px";
+    noBtn.style.top = newY + "px";
+
+    speed += 0.2;
+  }
+});
+
+// LOVE MESSAGES
+const messages = [
+"😍 I knew it / আমি জানতাম...",
+"তুমি আমার জীবনের সবচেয়ে সুন্দর জিনিস 💖",
+"You make my world brighter ✨",
+"আমি সবসময় তোমাকে হাসাতে চাই 😊",
+"You are my happiness 💕",
+"আমি তোমাকে অনেক ভালোবাসি ❤️"
+];
+
+// 100 languages (short set but loops)
+const loves = [
+"I love you", "Ami tomake bhalobashi", "Je t’aime", "Te amo", "Ich liebe dich",
+"Ti amo", "Saranghae", "Wo ai ni", "Ana behibek", "Ya tebya lyublyu",
+"Eu te amo", "Ik hou van jou", "Kimi ga suki", "Main tumse pyaar karta hoon",
+"Seni seviyorum", "Ninakupenda", "Saya cinta kamu", "Kocham cię",
+"Ég elska þig", "Jeg elsker dig"
+];
+
+yesBtn.addEventListener("click", () => {
+  messageBox.style.display = "block";
+  messageBox.innerHTML = "";
+
+  messages.forEach((msg, i) => {
+    const div = document.createElement("div");
+    div.className = "line";
+    div.style.animationDelay = (i * 1) + "s";
+    div.innerText = msg;
+    messageBox.appendChild(div);
+  });
+
+  startLanguages();
+});
+
+// TYPE EFFECT
+let index = 0;
+function startLanguages() {
+  setInterval(() => {
+    langBox.innerText = loves[index % loves.length];
+    index++;
+  }, 500);
+}
+
+// HEARTS
+function createHeart() {
+  const heart = document.createElement("div");
+  heart.className = "heart";
+  heart.innerText = "💖";
+  heart.style.left = Math.random() * 100 + "vw";
+  heart.style.fontSize = (Math.random() * 20 + 10) + "px";
+  document.body.appendChild(heart);
+
+  setTimeout(() => heart.remove(), 6000);
+}
+setInterval(createHeart, 250);
+</script>
+
+</body>
+</html>
